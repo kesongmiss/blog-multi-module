@@ -64,12 +64,6 @@ mybatis:
 
 
 # 操作OSS
-oss:
-    AccessKeyID: LTAI5tHZVxExj2Rnmjn6P3Sv
-    AccessKeySecret: AvRGq6UIQf7CGJvirYuaIYKtYZ1JAn
-    endpoint: oss-cn-beijing.aliyuncs.com
-    bucket: tenero-blog
-    MusicfirstKey: music/
-    ImagefirstKey: img/
+
 # 盐
 salt: tenero_kesong
