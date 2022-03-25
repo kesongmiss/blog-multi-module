@@ -1,7 +1,6 @@
 package com.tenero.blog.controller.user;
 
 import com.tenero.blog.common.BaseRespDto;
-import com.tenero.blog.shiro.CacheUser;
 import com.tenero.blog.utils.BaseDtoConvert;
 import com.tenero.blog.utils.MD5Util;
 import com.tenero.blog.vo.user.req.UserloginReqVo;
@@ -9,10 +8,8 @@ import com.tenero.blog.entity.user.BlogUser;
 import com.tenero.blog.service.BlogUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -56,18 +53,18 @@ public class UserLoginController {
             }
             user.setUsername(blogUser.getUsername());
         }
-        AuthenticationToken token = new UsernamePasswordToken(user.getUsername(), MD5Util.md5LowerCase(user.getPassword(),user.getUsername()+"tenero_kesong"));
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), MD5Util.md5LowerCase(user.getPassword(),user.getUsername()+"tenero_kesong"));
 
         //获得当前用户到登录对象，现在状态为未认证
         Subject subject= SecurityUtils.getSubject();
         try {
+            // 开启记住我功能
+            token.setRememberMe(true);
             subject.login(token);
 
             BlogUser blogUser = (BlogUser) subject.getPrincipals().getPrimaryPrincipal();
-            CacheUser cacheUser = CacheUser.builder().token(subject.getSession().getId().toString()).build();
-            BaseDtoConvert.tToV(blogUser,cacheUser);
 
-            log.info("CacheUser is {}",cacheUser.toString());
+            log.info("CacheUser is {}",blogUser.toString());
             return BaseRespDto.success();
         } catch (IncorrectCredentialsException ice){
             baseRespDto.setFail();

@@ -71,4 +71,6 @@ public class BlogUser implements Serializable {
     private String address;
 
     private static final long serialVersionUID = 1L;
+
+    private String token;
 }

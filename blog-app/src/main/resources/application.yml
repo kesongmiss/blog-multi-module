@@ -21,6 +21,8 @@ spring:
             driver-class-name: com.mysql.cj.jdbc.Driver
     # redis
     redis:
+        shiro:
+            timeout: 3600
         host: 39.107.127.19
         port: 6379
         password: 1998816
@@ -64,6 +66,12 @@ mybatis:
 
 
 # 操作OSS
-
+oss:
+    AccessKeyID: LTAI5tHZVxExj2Rnmjn6P3Sv
+    AccessKeySecret: AvRGq6UIQf7CGJvirYuaIYKtYZ1JAn
+    endpoint: oss-cn-beijing.aliyuncs.com
+    bucket: tenero-blog
+    MusicfirstKey: music/
+    ImagefirstKey: img/
 # 盐
 salt: tenero_kesong

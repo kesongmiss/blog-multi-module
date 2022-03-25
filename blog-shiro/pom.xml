@@ -18,11 +18,11 @@
 
     <dependencies>
         <!--sessionDao层的实现 通过redis, 使用的是shiro-redis开源插件-->
-        <dependency>
-            <groupId>org.crazycake</groupId>
-            <artifactId>shiro-redis</artifactId>
-            <version>${shiro-redis.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.crazycake</groupId>-->
+            <!--<artifactId>shiro-redis</artifactId>-->
+            <!--<version>${shiro-redis.version}</version>-->
+        <!--</dependency>-->
 
 
         <dependency>
