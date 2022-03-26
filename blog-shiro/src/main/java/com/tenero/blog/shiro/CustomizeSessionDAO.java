@@ -4,17 +4,20 @@ package com.tenero.blog.shiro;
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
+import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -31,7 +34,7 @@ public class CustomizeSessionDAO extends AbstractSessionDAO {
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
 
-    private final String prefix = "tenero:blog:session";
+    private final String prefix = "tenero:blog:session:";
 
     @Value("${spring.redis.shiro.timeout}")
     private int shiroTimeout;
@@ -53,8 +56,8 @@ public class CustomizeSessionDAO extends AbstractSessionDAO {
         assignSessionId(session,sessionId);
 
         // 先获取redis对value的操作对象,需要先设定key 然后复制key为string
-        redisTemplate.boundValueOps(prefix+sessionId).set(session);
-//        redisTemplate.opsForValue().set(prefix+session,sessionId,shiroTimeout,TimeUnit.SECONDS);
+//        redisTemplate.boundValueOps(prefix+sessionId).set(session);
+        redisTemplate.opsForValue().set(prefix+sessionId,session,shiroTimeout,TimeUnit.SECONDS);
         return sessionId;
     }
 
@@ -66,7 +69,9 @@ public class CustomizeSessionDAO extends AbstractSessionDAO {
      */
     @Override
     protected Session doReadSession(Serializable sessionId) {
-        return (Session)redisTemplate.boundValueOps(prefix + sessionId).get();
+//        return new SimpleSession(stringRedisTemplate.opsForValue().get(prefix + sessionId));
+        return (Session)redisTemplate.opsForValue().get(prefix + sessionId);
+//        return (Session)redisTemplate.boundValueOps(prefix + sessionId).get();
     }
 
     @Override

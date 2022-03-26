@@ -57,6 +57,15 @@ public class ShiroConfiguration {
     // 不指定加密算法 会走 SimpleCredentialsMatcher 的doCredentialsMatch方法 直接比较
     @Bean("userRealm")
     public UserRealm doGetAuthorizationInfoimpl() {
+        UserRealm userRealm = new UserRealm();
+        // 启用身份验证缓存 默认false
+        userRealm.setAuthenticationCachingEnabled(true);
+        // 认证缓存名称
+        userRealm.setAuthenticationCacheName("authenticationCache");
+        // 缓存授权信息 默认false
+        userRealm.setAuthorizationCachingEnabled(true);
+        // 授权缓存名称
+        userRealm.setAuthenticationCacheName("authorizationCache");
         return new UserRealm();
     }
 
