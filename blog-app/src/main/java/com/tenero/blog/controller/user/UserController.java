@@ -33,7 +33,7 @@ public class UserController {
         BlogUser blogUser = BaseDtoConvert.tToV(userRespVo, BlogUser.class);
 
         int i = blogUserService.insertSelective(blogUser);
-
+//        StaticLoggerBinder staticLoggerBinder = new StaticLoggerBinder();
         if(i>0){
             return BaseRespDto.success();
         }else {

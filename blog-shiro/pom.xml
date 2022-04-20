@@ -46,6 +46,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <!--使用log4j2日志，需要排除Logback日志-->
+            <!-- 排除默认的logback日志，使用log4j-->
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
